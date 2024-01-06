@@ -1,4 +1,4 @@
-################################################################################
+ ###############################################################################
 # Base image
 ################################################################################
 
@@ -10,7 +10,7 @@ FROM nginx
 
 # Remove default nginx configs.
 # Install packages
-RUN rm -f /etc/nginx/conf.d/* \
+RUN rm -f /etc/nginx/conf.d/  \
   && mkdir -p /run/php /run/hhvm \
   && apt-get update && apt-get upgrade -y && apt-get install -my \
     supervisor \
@@ -41,7 +41,7 @@ RUN sed -i "s/user = www-data/user = root/" /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i '/^;clear_env = no/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i '/^;ping\.path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i '/^;pm\.status_path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
-    && sed -i '/.*xdebug.so$/s/^/;/' /etc/php/7.0/mods-available/xdebug.ini
+    && sed -i '/.#xdebug.so$/s/^/;/' /etc/php/7.0/mods-available/xdebug.ini
 
 # Add configuration files
 COPY conf/nginx.conf /etc/nginx/
@@ -65,3 +65,4 @@ EXPOSE 80 443 9000
 ################################################################################
 
 ENTRYPOINT ["/usr/bin/supervisord"]
+ 
